@@ -11,10 +11,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
-      - name: Install Capacitor
+      - name: Install Tools
         run: |
+          npm init -y
           npm install @capacitor/core @capacitor/cli @capacitor/android
           npx cap init "SplitPro" "com.golden.splitpro" --web-dir .
           npx cap add android
@@ -24,6 +25,9 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+
+      - name: Sync Capacitor
+        run: npx cap sync android
 
       - name: Build APK
         run: |
@@ -35,4 +39,3 @@ jobs:
         with:
           name: SplitPro-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
-          
