@@ -1,0 +1,4 @@
+body { font-family: sans-serif; }
+.card { transition: transform 0.3s ease; }
+.card:hover { transform: translateY(-5px); }
+button:active { transform: scale(0.95); }
