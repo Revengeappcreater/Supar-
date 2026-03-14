@@ -13,29 +13,33 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Tools
+      - name: Install Capacitor & Android Project
         run: |
           npm init -y
           npm install @capacitor/core @capacitor/cli @capacitor/android
           npx cap init "SplitPro" "com.golden.splitpro" --web-dir .
+          mkdir android
           npx cap add android
+          npx cap copy
 
-      - name: Setup Java
+      - name: set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
+          cache: gradle
 
-      - name: Sync Capacitor
-        run: npx cap sync android
+      - name: Grant execute permission for gradlew
+        run: chmod +x android/gradlew
 
-      - name: Build APK
+      - name: Build with Gradle
         run: |
           cd android
           ./gradlew assembleDebug
 
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: SplitPro-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          
